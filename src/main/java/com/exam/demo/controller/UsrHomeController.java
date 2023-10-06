@@ -29,4 +29,11 @@ public class UsrHomeController {
 	public int showMain3() {
 		return count++;
 	}
+	
+	@ResponseBody
+	@RequestMapping("/usr/home/main4")
+	public String showMain4() {
+		count = 0;
+		return "count 값이 0으로 초기화 되었습니다.";
+	}
 }
