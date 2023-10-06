@@ -11,9 +11,11 @@ import com.exam.demo.vo.Article;
 
 @Controller
 public class UsrArticleController {
+	//인스턴스 변수 
 	private List<Article> articles;
 	private int articleLastId;
 	
+	//생성자
 	public UsrArticleController() {
 		articles = new ArrayList<>();
 		articleLastId = 0;
@@ -21,6 +23,7 @@ public class UsrArticleController {
 		makeTestData();
 	}
 	
+	//
 	private void makeTestData() {
 		for (int i = 1; i <= 10; i++) {
 			String title = "제목" + 1;
@@ -40,6 +43,7 @@ public class UsrArticleController {
 		return article;
 	}
 	
+	// action method 
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
 	public Article doAdd(String title, String body) {
@@ -57,6 +61,28 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
 	public String doDelete(int id) {
+		Article article = getArticle(id);
+		
+		if ( article == null ) {
+			return id + "번 게시물이 존재하지 않습니다.";
+		}
+		
+		deleteArticle(id);
 		return id + "번 게시물이 삭제되었습니다.";
+	}
+
+	private void deleteArticle(int id) {
+		Article article = getArticle(id);
+		
+		articles.remove(article);
+	}
+
+	private Article getArticle(int id) {
+		for ( Article article : articles ) {
+			if ( article.getId() == id ) {
+				return article;
+			}
+		}
+		return null;
 	}
 }
